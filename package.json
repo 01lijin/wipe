@@ -1,6 +1,6 @@
 {
   "name": "lj-wipe",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "devDependencies": {
     "grund": "^1.0.7",
     "grunt": "^1.0.3",
