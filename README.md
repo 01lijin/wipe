@@ -12,8 +12,12 @@ PC端实现涂抹擦除效果, 超过50%的涂抹面积可以查看全部. 涂�
 3. 增加了回调函数. 让用户可以自己完成后继功能
 
 使用步骤说明:
-1. 在HTML中添加指定id的canvas标签
-例如: <canvas id="cas" width="375" height="667"></canvas>
+1. 在HTML中添加指定id的canvas标签.
+
+例如:
+``` 
+<canvas id="cas" width="375" height="667"></canvas>
+ ```
 
 2. 编辑配置文件:
 | 属性名 | 取值类型| 备注 |
