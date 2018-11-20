@@ -38,9 +38,9 @@ Wipe.prototype.drawMask = function(){
 			// 裁剪图片
 			that.context.drawImage(img,0,0,img.width,img.height,0,0,that._w,that._h);
 			that.context.globalCompositeOperation = "destination-out";
-		}
+		};
 	}	
-}
+};
 // drawT画点画线函数
 // 参数: 如果只传递两个参数, 函数功能画圆, x1,y1即圆的中心坐标.
 // 如果传递四个参数, 函数功能画线, x1,y1为起始坐标, x2,y2为结束坐标
@@ -66,11 +66,11 @@ Wipe.prototype.drawT = function(x1,y1,x2,y2){
 	}else{
 		return false;
 	}
-}
+};
 // 清除画布
 Wipe.prototype.clearRect = function(){
 	this.context.clearRect(0,0,this._w,this._h);
-}
+};
 // 获取透明点占整个画布的百分比
 Wipe.prototype.getTransparencyPercent = function(){
 	var t = 0;
@@ -87,7 +87,7 @@ Wipe.prototype.getTransparencyPercent = function(){
 
 	return this.percent.toFixed(2);  // 截取小数点两位3
 	// return Math.round(this.percent);
-}
+};
 Wipe.prototype.addEvent = function(){
 	this.device = (/android|webos|iPhone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
 	var clickEvtName = this.device ? "touchstart" : "mousedown";
@@ -97,11 +97,16 @@ Wipe.prototype.addEvent = function(){
 	var that = this;
 	this.cas.addEventListener(clickEvtName,function(evt){
 		that.isMouseDown = true;
-
+		
 		var event = evt || window.event;
 		// 获取鼠标在视口的坐标, 传递参数到drawPoint
-		that.posX = that.device ? event.touches[0].clientX : event.clientX;
-		that.posY = that.device ? event.touches[0].clientY : event.clientY;
+		scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+		scrollLeft=document.documentElement.scrollLeft||document.body.scrollLeft;
+		that.posX = that.device ? event.touches[0].clientX+scrollLeft : event.clientX+scrollLeft;
+		that.posY = that.device ? event.touches[0].clientY+scrollTop : event.clientY+scrollTop;
+		
+
+
 		that.drawT(that.posX,that.posY);
 	},false);
 	this.cas.addEventListener(moveEvtName,function(evt){
@@ -112,8 +117,8 @@ Wipe.prototype.addEvent = function(){
 			var event = evt || window.event;
 			event.preventDefault();
 			// 获取鼠标在视口的坐标, 传递参数到drawPoint
-			var x2 = that.device ? event.touches[0].clientX : event.clientX;
-			var y2 = that.device ? event.touches[0].clientY : event.clientY;
+			var x2 = that.device ? event.touches[0].clientX+scrollLeft : event.clientX+scrollLeft;
+			var y2 = that.device ? event.touches[0].clientY+scrollTop : event.clientY+scrollTop;
 			that.drawT(that.posX,that.posY,x2,y2);
 			// 每次的结束点变成下一次画线的开始点
 			that.posX = x2;
@@ -132,4 +137,4 @@ Wipe.prototype.addEvent = function(){
 			that.clearRect();
 		}
 	},false);
-}
+};
