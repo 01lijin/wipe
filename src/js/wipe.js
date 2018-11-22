@@ -105,8 +105,6 @@ Wipe.prototype.addEvent = function(){
 		that.posX = that.device ? event.touches[0].clientX+scrollLeft : event.clientX+scrollLeft;
 		that.posY = that.device ? event.touches[0].clientY+scrollTop : event.clientY+scrollTop;
 		
-
-
 		that.drawT(that.posX,that.posY);
 	},false);
 	this.cas.addEventListener(moveEvtName,function(evt){
