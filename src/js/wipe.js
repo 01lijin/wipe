@@ -20,6 +20,8 @@ function Wipe(obj){
 	this.isMouseDown = false;  // 表示鼠标的状态, 是否按下
 	this.callback = obj.callback;
 	this.transpercent = obj.transpercent;  // 用户定义的百分比
+	this.vclick = true;
+
 	this.drawMask();	
 	this.addEvent();
 }
@@ -119,9 +121,7 @@ Wipe.prototype.addEvent = function(){
 	},false);
 	this.cas.addEventListener(moveEvtName,function(evt){
 		// 判断, 当isMouseDown为true时, 才执行下面的操作
-		if ( !that.isMouseDown) {
-			return false;
-		}else{
+		if ( that.isMouseDown) {
 			var event = evt || window.event;
 			event.preventDefault();
 			// 获取鼠标在视口的坐标, 传递参数到drawPoint
@@ -131,18 +131,44 @@ Wipe.prototype.addEvent = function(){
 			// 每次的结束点变成下一次画线的开始点
 			that.posX = x2;
 			that.posY = y2;
+
+			// 每隔一秒进行一个判断
+			if (that.vclick) {
+				var percent = that.getTransparencyPercent();
+				// 调用同名的全局函数
+				console.log(percent);
+				that.callback.call(null,percent);
+				that.vclick = false;
+				that.timeOut();
+				//当透明面积超过用户指定的透明面积
+				if( percent > that.transpercent){
+					that.clearRect();
+					that.isMouseDown = false;
+				}		
+			}
+		}else{
+			return false;
 		}
 	},false);
 	this.cas.addEventListener(endEvtName,function(){
 		//还原isMouseDown 为false
 		that.isMouseDown = false;
-		console.log(that.transpercent);
-		var percent = that.getTransparencyPercent();
-		// 调用同名的全局函数
-		that.callback.call(null,percent);
-		// 当透明面积超过用户指定的透明面积
-		if(percent>that.transpercent) {
-			that.clearRect();
-		}
+		// console.log(that.transpercent);
+		// var percent = that.getTransparencyPercent();
+		// // 调用同名的全局函数
+		// that.callback.call(null,percent);
+		// // that.timeOut();
+		// // 当透明面积超过用户指定的透明面积
+		// if(percent>that.transpercent) {
+		// 	// alert("超过了50%的面积");
+		// 	that.clearRect();
+		// }
+		
 	},false);
 };
+Wipe.prototype.timeOut=function(){
+	var that = this;
+	setTimeout(function(){
+		that.vclick = true;
+	},2000);
+}
