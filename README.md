@@ -52,4 +52,4 @@ var wipeConfig = {
 new Wipe(wipeConfig);
  ```4. 编写回调函数. 用户在涂抹完成的后继操作必须写在此回调函数中例如:``` 
 function wipeCallback(percent){	if (percent>50) {		console.log("透明面积超过50%, 查看底图");	};}
- ``` ## ver 3.1.0 ## 1. 延迟透明面积计算 
+ ``` ## ver 3.1.0 ## 1. 添加文字 2. 延迟透明面积计算 

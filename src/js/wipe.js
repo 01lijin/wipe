@@ -17,6 +17,7 @@ function Wipe(obj){
 	this.radius = obj.radius;  // 涂抹的半径
 	this.posX = 0;
 	this.posY = 0;
+	this.text = obj.text;
 	this.isMouseDown = false;  // 表示鼠标的状态, 是否按下
 	this.callback = obj.callback;
 	this.transpercent = obj.transpercent;  // 用户定义的百分比
@@ -24,6 +25,7 @@ function Wipe(obj){
 
 	this.drawMask();	
 	this.addEvent();
+	this.drawText();
 }
 // 生成画布上的遮罩, 默认为颜色#666
 Wipe.prototype.drawMask = function(){
@@ -69,6 +71,19 @@ Wipe.prototype.drawT = function(x1,y1,x2,y2){
 		return false;
 	}
 };
+
+Wipe.prototype.drawText = function(){
+	// 保存当前绘图状态
+	this.context.save();
+
+	this.context.font = "50px 黑体";
+	this.context.textAlign = "center";
+	// 第二和第三个参数为文字的坐标点, 第四个参数可选, 限制字体大小, 将文字强制收缩到指定尺寸
+	this.context.fillText(this.text,200,100,200);
+	// 恢复原有绘图状态
+	this.context.restore();
+};
+
 // 清除画布
 Wipe.prototype.clearRect = function(){
 	this.context.clearRect(0,0,this._w,this._h);
